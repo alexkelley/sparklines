@@ -9,7 +9,7 @@ from openpyxl.drawing.image import Image
 
 
 
-def plot_sparklines(title, data_list):
+def plot_sparklines(title, coordinates_list, highest, lowest, current):
     coordinates_list = data_list[0]
     company_name = data_list[1]
     highest_count = data_list[2]
@@ -41,24 +41,24 @@ def plot_sparklines(title, data_list):
     ax.annotate('{}'.format(y[-1]), xy=(x[-1], y[-1]),
                 xytext=(3, -3), textcoords='offset points',
                 ha='left', va='bottom')
-    if highest_count[1] > y[-1]:
-        plt.plot(highest_count[0], highest_count[1],
+    if highest[1] > y[-1]:
+        plt.plot(highest[0], highest[1],
                  color='k', marker='o', markersize=4)
-        ax.annotate('{}'.format(highest_count[1]),
-                    xy=(highest_count[0], highest_count[1]),
+        ax.annotate('{}'.format(highest[1]),
+                    xy=(highest[0], highest[1]),
                     xytext=(-2, 2), textcoords='offset points',
                     ha='right', va='bottom')
-    if active[1] > 0:
-        plt.plot(active[0], active[1],
+    if current[1] > 0:
+        plt.plot(current[0], current[1],
                  color='r', marker='o', markersize=4)
-        ax.annotate('{}'.format(active[1]),
-                    xy=(active[0], active[1]),
+        ax.annotate('{}'.format(current[1]),
+                    xy=(current[0], current[1]),
                     xytext=(3, -3), textcoords='offset points',
                     ha='left', va='top')
 
-    fig.text(0.3, 0.15, '{}: {}'.format(cid, company_name))
+    fig.text(0.3, 0.15, '{}'.format(title))
     plt.grid()
-    plt.savefig('charts/{}_{}.png'.format(cid,company_name.replace('.', '').replace('/', '')),
+    plt.savefig('charts/{}.png'.format(company_name),
                 format='png')
     # plt.show()
 
@@ -71,6 +71,10 @@ now = datetime.datetime.now()
 filename = ('sparklines_{}.xlsx').format(
                  datetime.datetime.strftime(now, '%Y-%m-%dT%H-%M-%S'))
 
-data = []
+title = 'Fun with Sparklines'
+coordinates_list = [] # [(value, date), ...]
+highest = 0 # max value
+lowest = 0 # min value
+current = 0 # value with most recent date
 
-plot_sparklines(title, data)
+plot_sparklines(title, coordinates_list, highest, lowest, current):
