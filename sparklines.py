@@ -8,12 +8,7 @@ from openpyxl.styles import NamedStyle, Font, Alignment
 from openpyxl.drawing.image import Image
 
 
-
 def plot_sparklines(title, coordinates_list, highest, lowest, current):
-    coordinates_list = data_list[0]
-    company_name = data_list[1]
-    highest_count = data_list[2]
-    active = data_list[3]
 
     font = {'family': 'serif',
             'weight': 'normal',
@@ -41,26 +36,25 @@ def plot_sparklines(title, coordinates_list, highest, lowest, current):
     ax.annotate('{}'.format(y[-1]), xy=(x[-1], y[-1]),
                 xytext=(3, -3), textcoords='offset points',
                 ha='left', va='bottom')
-    if highest[1] > y[-1]:
-        plt.plot(highest[0], highest[1],
-                 color='k', marker='o', markersize=4)
-        ax.annotate('{}'.format(highest[1]),
-                    xy=(highest[0], highest[1]),
-                    xytext=(-2, 2), textcoords='offset points',
-                    ha='right', va='bottom')
-    if current[1] > 0:
-        plt.plot(current[0], current[1],
-                 color='r', marker='o', markersize=4)
-        ax.annotate('{}'.format(current[1]),
-                    xy=(current[0], current[1]),
-                    xytext=(3, -3), textcoords='offset points',
-                    ha='left', va='top')
+    # if highest[1] > y[-1]:
+    #     plt.plot(highest[0], highest[1],
+    #              color='k', marker='o', markersize=4)
+    #     ax.annotate('{}'.format(highest[1]),
+    #                 xy=(highest[0], highest[1]),
+    #                 xytext=(-2, 2), textcoords='offset points',
+    #                 ha='right', va='bottom')
+    # if current[1] > 0:
+    #     plt.plot(current[0], current[1],
+    #              color='r', marker='o', markersize=4)
+    #     ax.annotate('{}'.format(current[1]),
+    #                 xy=(current[0], current[1]),
+    #                 xytext=(3, -3), textcoords='offset points',
+    #                 ha='left', va='top')
 
     fig.text(0.3, 0.15, '{}'.format(title))
     plt.grid()
-    plt.savefig('charts/{}.png'.format(company_name),
-                format='png')
-    # plt.show()
+    #plt.savefig('charts/{}.png'.format(title), format='png')
+    plt.show()
 
 
 ##################
@@ -72,9 +66,22 @@ filename = ('sparklines_{}.xlsx').format(
                  datetime.datetime.strftime(now, '%Y-%m-%dT%H-%M-%S'))
 
 title = 'Fun with Sparklines'
-coordinates_list = [] # [(value, date), ...]
-highest = 0 # max value
-lowest = 0 # min value
-current = 0 # value with most recent date
+coordinates_list = [
+    (datetime.datetime(2016, 12, 1, 0, 0), 7),
+    (datetime.datetime(2017, 1, 1, 0, 0), 6),
+    (datetime.datetime(2017, 2, 1, 0, 0), 5),
+    (datetime.datetime(2017, 3, 1, 0, 0), 6),
+    (datetime.datetime(2017, 4, 1, 0, 0), 4),
+    (datetime.datetime(2017, 5, 1, 0, 0), 2),
+    (datetime.datetime(2017, 6, 1, 0, 0), 3),
+    (datetime.datetime(2017, 7, 1, 0, 0), 1),
+    (datetime.datetime(2017, 8, 1, 0, 0), 5),
+    (datetime.datetime(2017, 9, 1, 0, 0), 8),
+    (datetime.datetime(2017, 10, 1, 0, 0), 9),
+    (datetime.datetime(2017, 11, 1, 0, 0), 3)
+]
+highest = 9
+lowest =  1
+current = 3
 
-plot_sparklines(title, coordinates_list, highest, lowest, current):
+plot_sparklines(title, coordinates_list, highest, lowest, current)
